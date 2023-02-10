@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<stdlib.h>
-
 typedef struct funcionario{
 char nome[50];
 float salario;
@@ -48,12 +47,23 @@ for(c=0;c<quanto;c++){
 printf("menor salario:%f\n", menors);
 printf("cargo:%s\n", x[j].cargo);
 }
-
+void trocar(Funcionario *x, int quant ){
+int c, ident;
+float novo;
+  printf("informe a identificacao:\n");
+ scanf("%d", &ident);
+ printf("informe novo salario:\n");
+ scanf("%f", &novo);
+     for(c=0;c<quant;c++){
+  if (ident== x[c].identificador){
+   x[c].salario=novo;
+   }
+  }
+ }
 
 int main(void){
 
-int quanf, c;
-int mudar;
+int quanf, c, tro;
 printf("quantos funcionarios:");
 scanf("%d", &quanf);
 Funcionario *info=(Funcionario*) malloc(quanf*sizeof(Funcionario));
@@ -71,9 +81,25 @@ for(c=0;c<quanf;c++){
     printf("digite cargo:");
     scanf(" %[^\n]", info[c].cargo);
 }
-
 imprima(info, quanf);
 maior(info, quanf);
 menor(info, quanf);
+
+printf("deseja trocar o salario?\n");
+printf("1-sim\n");
+printf("2-nao\n");
+scanf("%d", &tro);
+
+    if (tro== 1){
+        trocar(info, quanf);
+        imprima(info, quanf);
+        maior(info, quanf);
+        menor(info, quanf);
+    }else{
+        imprima(info, quanf);
+        maior(info, quanf);
+        menor(info, quanf);
+    }
+
 return 0;
 }
