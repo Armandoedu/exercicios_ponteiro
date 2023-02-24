@@ -1,7 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-
+/*Primeiro fiz uma struct e a nomeei como aluno, dentro dela declarei 4 variáveis
+mat para matricula, nome para o nome do aluno, notas para as notas do aluno, media para a soma das notas e a divisão delas pela quantidade
+de notas*/
 typedef struct aluno
 {
     int mat;
@@ -9,7 +11,8 @@ typedef struct aluno
     float notas[3];
     float media;
 }Aluno;
-
+/*Fiz uma struct e a nomeei como turma e coloquei 3 variáveis. ID para armazenar o id de uma turma, vagas para determinar quantas vagas 
+numa turma há, e aluno essa variável serve para acessar a struct aluno.*/
 typedef struct turma
 {
     char id;
@@ -17,13 +20,14 @@ typedef struct turma
     Aluno aluno[3];
 }Turma;
 
+/*Nesta função, vou acessar a struct turma para armazenar o id da turma, isso vai fazer com que se crie as turmas*/
 void criar_turmas(Turma *turmas, int i){
     printf("Criando Turma...\n");
     printf("Digite o ID da turma: ");
     scanf(" %c", &turmas[i].id);
     printf("Turma Criada\n");
 }
-
+/*Nesta função vou acessar a struct turma e vou listar cada turma mostrando o id e quantas vagas há nelas*/
 void listar_turmas(Turma *turmas, int i){
     int j;
     for (j = 0; j < i; j++)
@@ -31,7 +35,10 @@ void listar_turmas(Turma *turmas, int i){
         printf("Turma: %c vagas: %d\n", turmas[j].id, 3-turmas[j].vagas);
     }
 }
-
+/*Nesta função peço os dados do aluno, pergunto primeiro o id da turma que ele quer se matricular
+depois o "for" vai passar por cada vetor de turma e o if compara se naquele vetor tem o id da turma que o aluno deu
+se não houver a turma o "else if" é acionado e mostra a mensagem "Turma não existe" 
+O aluno vai digitar o nome e sua matricula*/
 void dados_aluno(Turma *alunos, int a){
     int j, i=0, f=0;
     char turma;
@@ -63,7 +70,7 @@ void dados_aluno(Turma *alunos, int a){
             printf("Turma nao existe!\n");
         }
 }
-
+/*Esta função zera as vagas*/
 void vagas(Turma *vagas){
     int j;
     for (j = 0; j < 3; j++)
@@ -71,7 +78,7 @@ void vagas(Turma *vagas){
         vagas[j].vagas = 0;
     }
 }
-
+/*Esta função zera a media e todas a notas*/
 void media(Turma *media){
     int j, i, k;
     for (j = 0; j < 3; j++)
@@ -86,7 +93,9 @@ void media(Turma *media){
         }
     } 
 }
-
+/*Esta função vai pedir para informar as notas dos alunos, primeiro vai pedir o id e o "for" vai passar por cada vetor identificando os IDs
+das turmas, o "if" vai identificar as turmas, após identificar vai pedir as notas dos alunos de uma determinada turma
+na função a media vai receber a soma das notas de cada aluno*/
 void notas(Turma *nota, int a){
     int i, j, f = 0, k;
     char turma;
@@ -110,7 +119,8 @@ void notas(Turma *nota, int a){
         }
     }  
 }
-
+ /*Nesta função vai mostrar as informações de cada aluno numa determinada turma, vai pedir o id da turma e comparar com cada vetor que acessa
+ o ID*/
 void imprimir_aluno(Turma *nota, int a){
     int i, f = 0, k;
     char turma;
@@ -131,7 +141,7 @@ void imprimir_aluno(Turma *nota, int a){
     }  
 }
 int main(){
-
+/*declarei dinâmicamente o ponteiro classe do Turma*/
     int t, i=0, a=0;
     Turma *classe = (Turma *)calloc(3, sizeof(Turma));
     if (classe==NULL)
@@ -139,9 +149,14 @@ int main(){
         printf("ERRO!\n");
         exit(1);
     }
+    /*Funçao vagas que vai zerar as vagas acessando a struct turma com o ponteiro classe*/
     vagas(classe);
+    /*Função media que vai zerar as notas e media, acessando cada uma das struct com o ponteiro classe*/
     media(classe);
+
     printf("Bem-vindo ao Programa de Gerenciamento de Turmas!\nEste programa gerencia as turmas ofertadas, fornecendo as funcionalidades de matricula, lancamento de notas e listagem de alunos.\n");
+    /*A função "do while vai servir para acessar o menu e cada numero do menu vai acessar as funçoes
+    o programa termina quando t for igual a 6"*/
     do{
         printf("Menu:\n1 - Criar turmas\n2 - Listar turmas\n3 - Matricular aluno\n4 - Lancar notas\n5 - Listar alunos\n6 - Sair\n");
         scanf("%d", &t);
@@ -166,5 +181,7 @@ int main(){
             printf("Obrigado por usar este programa!");
         }
     } while (t!=6);
+    /*A função free vai liberar a memória alocada dinamicamente*/
+    free(classe);
     return 0;
 }
